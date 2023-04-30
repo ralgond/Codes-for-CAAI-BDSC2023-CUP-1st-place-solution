@@ -80,7 +80,7 @@ class TrainTest:
 		metrics = LineaRE.test_step(self.__cal_model, test_data_list, True)
 		self._log_metrics('Test', step, metrics)
 
-		def _get_optimizer(self):  # add Optimizer you wanted here
+	def _get_optimizer(self):  # add Optimizer you wanted here
 		current_lr = config.learning_rate
 		if config.optimizer == 'Adam':
 			Optimizer = torch.optim.Adam
