@@ -5,8 +5,10 @@ import pandas as pd
 # 读取triple1.txt 读取predict1.txt 然后合并
 triple_df = pd.read_csv("./data/ecom-social/test_triple_id.txt", names=['triple_id'])
 
+save_path = "save/ecom-social"
+
 candidate_df = None
-with open("./save/predict.txt") as fin:
+with open(f"./{save_path}/predict.txt") as fin:
     data = []
     for line in fin:
         line2 = []
@@ -52,5 +54,5 @@ for _, row in all_df.iterrows():
     result_l.append(d)
 
 import json
-with open("./save/submit.json", "w+") as of:
+with open("./{save_path}/submit.json", "w+") as of:
     json.dump(result_l, of)
