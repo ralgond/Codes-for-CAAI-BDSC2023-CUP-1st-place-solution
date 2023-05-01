@@ -54,5 +54,5 @@ for _, row in all_df.iterrows():
     result_l.append(d)
 
 import json
-with open("./{save_path}/submit.json", "w+") as of:
+with open(f"./{save_path}/submit.json", "w+") as of:
     json.dump(result_l, of)

@@ -184,7 +184,7 @@ class LineaRE(nn.Module):
 
 					for i in range(batch_size):
 						score = score_batch[i,:]
-						sorted_score_index = torch.argsort(score, descending=True)
+						sorted_score_index = torch.argsort(score)
 						top5 = []
 						for idx in range(5):
 							ent_id = config.id2ent[sorted_score_index[idx].item()]
