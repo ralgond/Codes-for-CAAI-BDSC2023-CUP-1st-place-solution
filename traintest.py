@@ -95,7 +95,7 @@ class TrainTest:
 
 		test_data_list = self.__kg.predict_data_iterator(test='test')
 		logging.info('----------Predicting on Test Dataset----------')
-		LineaRE.predict_step(self.__cal_model, test_data_list)
+		LineaRE.predict_step(self.__model, test_data_list)
 
 
 	def _get_optimizer(self):  # add Optimizer you wanted here
