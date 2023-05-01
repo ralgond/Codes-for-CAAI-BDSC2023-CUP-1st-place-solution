@@ -31,7 +31,7 @@ class TrainTest:
 		training_logs = []
 		# Training Loop
 		for step in range(init_step, config.max_step + 1):
-			log = LineaRE.train_step(self.__cal_model, optimizer, data_shoter.next())
+			log = LineaRE.train_step(self.__cal_model, optimizer, data_shoter.next(), config.device)
 			training_logs.append(log)
 			# log
 			if step % config.log_step == 0:
@@ -44,7 +44,7 @@ class TrainTest:
 			if step % config.valid_step == 0:
 				logging.info(f'---------- Evaluating on Valid Dataset ----------')
 				metrics = LineaRE.test_step(self.__cal_model, self.__kg.test_data_iterator(test='valid'), True)
-				self._log_metrics('Valid', step, metrics)
+				self._log_metrics('Valid', step, metrics[0])
 				logging.info('-----------------------------------------------')
 				if metrics[0]['MRR'] >= max_mrr:
 					max_mrr = metrics[0]['MRR']
@@ -66,19 +66,30 @@ class TrainTest:
 		self.__model.load_state_dict(checkpoint['model_state_dict'])
 		step = checkpoint['step']
 		# relation patterns
-		test_datasets_str = ['Symmetry', 'Inversion', 'Composition', 'Other']
-		for dataset_str in test_datasets_str:
-			test_data_list = self.__kg.test_data_iterator(test=dataset_str)
-			if len(test_datasets_str[0]) == 0:
-				continue
-			logging.info(f'---------- Evaluating on {dataset_str} Dataset ----------')
-			metrics = LineaRE.test_step(self.__cal_model, test_data_list)
-			self._log_metrics(dataset_str, step, metrics)
+		# test_datasets_str = ['Symmetry', 'Inversion', 'Composition', 'Other']
+		# for dataset_str in test_datasets_str:
+		# 	test_data_list = self.__kg.test_data_iterator(test=dataset_str)
+		# 	if len(test_datasets_str[0]) == 0:
+		# 		continue
+		# 	logging.info(f'---------- Evaluating on {dataset_str} Dataset ----------')
+		# 	metrics = LineaRE.test_step(self.__cal_model, test_data_list)
+		# 	self._log_metrics(dataset_str, step, metrics)
 		# finally test
 		test_data_list = self.__kg.test_data_iterator(test='test')
 		logging.info('----------Evaluating on Test Dataset----------')
 		metrics = LineaRE.test_step(self.__cal_model, test_data_list, True)
-		self._log_metrics('Test', step, metrics)
+		self._log_metrics('Test', step, metrics[0])
+
+	def predict(self):
+		# load best model state
+		checkpoint = torch.load(path.join(config.save_path, 'checkpoint'))
+		self.__model.load_state_dict(checkpoint['model_state_dict'])
+		step = checkpoint['step']
+
+		test_data_list = self.__kg.predict_data_iterator(test='test')
+		logging.info('----------Predicting on Test Dataset----------')
+		LineaRE.predict_step(self.__cal_model, test_data_list)
+
 
 	def _get_optimizer(self):  # add Optimizer you wanted here
 		current_lr = config.learning_rate

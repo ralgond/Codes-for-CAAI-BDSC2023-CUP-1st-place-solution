@@ -65,7 +65,7 @@ class LineaRE(nn.Module):
 		else:
 			raise ValueError(f'mode {ht} not supported')
 		score = torch.norm(score, p=config.norm_p, dim=-1) + filter_bias
-		return torch.argsort(score)
+		return torch.argsort(score), score
 
 	def _regularize(self):
 		ent_reg = torch.norm(self.ent_embd.weight, p=2, dim=-1)
@@ -86,11 +86,13 @@ class LineaRE(nn.Module):
 			logging.info(f'Parameter {name}: {str(param.size())}, require_grad = {str(param.requires_grad)}')
 
 	@staticmethod
-	def train_step(model, optimizer, data):
+	def train_step(model, optimizer, data, device):
 		model.train()
 		optimizer.zero_grad()
 		batch, ht = data
 		sample, neg_ents, weight = batch
+		sample, neg_ents, weight = sample.to(device), neg_ents.to(device), weight.to(device)
+
 		ent_reg, rel_reg, pos_loss, neg_loss = model(sample, weight, ht, neg_ents)
 		weight_sum = torch.sum(weight)
 		pos_loss = torch.sum(pos_loss) / weight_sum
@@ -132,7 +134,7 @@ class LineaRE(nn.Module):
 				for pos_sample, filter_bias, rel_tp in test_dataset:
 					pos_sample = pos_sample.to(config.device)
 					filter_bias = filter_bias.to(config.device)
-					sort = model(pos_sample, filter_bias, mode)
+					sort,_ = model(pos_sample, filter_bias, mode)
 					true_ents = pos_sample[:, mode_ents[mode]].unsqueeze(dim=-1)
 					batch_ranks = torch.nonzero(torch.eq(sort, true_ents), as_tuple=False)
 					ranks.append(batch_ranks[:, 1].detach().cpu().numpy())
@@ -155,3 +157,29 @@ class LineaRE(nn.Module):
 					result = get_result(ranks_tp)
 					metrics.append(result)
 		return metrics
+
+
+	@staticmethod
+	def predict_step(model, test_dataset_list):
+		model.eval()
+
+		with torch.no_grad(), open(config.save_path+"/predict.txt", "w+") as of:
+			for test_dataset, mode in test_dataset_list:
+				rtps = []
+				for pos_sample, filter_bias, rel_tp in test_dataset:
+					pos_sample = pos_sample.to(config.device)
+					filter_bias = filter_bias.to(config.device)
+
+					batch_size = pos_sample.size(0)
+
+					_, score_batch = model(pos_sample, filter_bias, mode)
+
+					for i in range(batch_size):
+						score = score_batch[i,:]
+						sorted_score_index = torch.argsort(score, descending=True)
+						top5 = []
+						for idx in range(5):
+							ent_id = config.id2ent[sorted_score_index[idx].item()]
+							top5.append((ent_id, score[sorted_score_index[idx].item()]))
+						l = ["{}: {}".format(ent_id, score) for (ent_id, score) in top5]
+						of.write("\t".join(l)+"\n")

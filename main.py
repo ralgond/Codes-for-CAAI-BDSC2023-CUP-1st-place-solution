@@ -6,7 +6,7 @@ from configure import config
 if __name__ == '__main__':
 	
 	utils.set_seed(42)
-	
+
 	config.setting('config/config_FB15k-237.json')
 	# config.setting('config/config_FB15k.json')
 	# config.set_log("./config/config_FB15k-237.json")
@@ -18,4 +18,4 @@ if __name__ == '__main__':
 
 	tt = traintest.TrainTest(data.KG())
 	tt.train()
-	tt.test()
+	tt.predict()

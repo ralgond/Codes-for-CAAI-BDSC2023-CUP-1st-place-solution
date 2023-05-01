@@ -27,6 +27,8 @@ class KG(object):
 		self.num_ents = len(self.__ent2id)
 		self.num_rels = len(self.__rel2id)
 
+		config.__setattr__("id2ent", {int(v):k for k,v in self.__ent2id.items()})
+
 		self.__train_triples = self._read_triples(data_path / 'train.txt')
 		self.__valid_triples = self._read_triples(data_path / 'valid.txt')
 		self.__test_triples = self._read_triples(data_path / 'test.txt')
@@ -35,10 +37,10 @@ class KG(object):
 		self.__test_dict = {
 			'test': self.__test_triples,
 			'valid': self.__valid_triples,
-			'symmetry': self._read_triples(data_path / 'symmetry_test.txt'),
-			'inversion': self._read_triples(data_path / 'inversion_test.txt'),
-			'composition': self._read_triples(data_path / 'composition_test.txt'),
-			'other': self._read_triples(data_path / 'other_test.txt')
+			# 'symmetry': self._read_triples(data_path / 'symmetry_test.txt'),
+			# 'inversion': self._read_triples(data_path / 'inversion_test.txt'),
+			# 'composition': self._read_triples(data_path / 'composition_test.txt'),
+			# 'other': self._read_triples(data_path / 'other_test.txt')
 		}
 		self.__all_true_heads, self.__all_true_tails = self._get_true_ents()
 		self.__r_tp = self._get_rel_type()
@@ -46,19 +48,47 @@ class KG(object):
 		self._logger()
 
 	def train_data_iterator(self):
-		return tuple(
-			utils.PreDataLoader(
-				loader=DataLoader(
-					dataset=dataset(self.__train_triples, self.num_ents),
+		return tuple((
+				DataLoader(
+					dataset=HeadDataset(self.__train_triples, self.num_ents),
 					batch_size=config.batch_size,
 					shuffle=True,
 					num_workers=4,
 					collate_fn=TrainDataset.collate_fn,
 					persistent_workers=True
 				),
-				device=config.device
-			) for dataset in [HeadDataset, TailDataset]
+				DataLoader(
+					dataset=TailDataset(self.__train_triples, self.num_ents),
+					batch_size=config.batch_size,
+					shuffle=True,
+					num_workers=4,
+					collate_fn=TrainDataset.collate_fn,
+					persistent_workers=True
+				)
+			)
 		)
+
+	def predict_data_iterator(self, test="test"):
+		try:
+			triples = self.__test_dict[test.lower()]
+			return [
+				(
+					DataLoader(
+						dataset(triples, self.num_ents, true_ents, self.__r_tp),
+						batch_size=config.test_batch_size,
+						num_workers=4,
+						collate_fn=TestDataset.collate_fn
+					),
+					ht
+				) for dataset, true_ents, ht in zip(
+					[TestTail],
+					[self.__all_true_tails],
+					['tail-batch']
+				)
+			]
+		except KeyError:
+			logging.error(f'No triple file named {test}')
+			exit(-1)
 
 	def test_data_iterator(self, test='test'):
 		try:
@@ -172,7 +202,7 @@ class TrainDataset(Dataset):
 	@staticmethod
 	def collate_fn(data):
 		pos_sample = torch.tensor([_[0] for _ in data])
-		neg_sample = torch.tensor([_[1] for _ in data])
+		neg_sample = torch.tensor(np.array([_[1] for _ in data]))
 		weight = torch.tensor([_[2] for _ in data])
 		return pos_sample, neg_sample, weight
 
@@ -236,7 +266,7 @@ class TestDataset(Dataset):
 	@staticmethod
 	def collate_fn(data):
 		pos_sample = torch.tensor([_[0] for _ in data])
-		filter_bias = torch.tensor([_[1] for _ in data])
+		filter_bias = torch.tensor(np.array([_[1] for _ in data]))
 		rel_tp = np.array([_[2] for _ in data])
 		return pos_sample, filter_bias, rel_tp
 
