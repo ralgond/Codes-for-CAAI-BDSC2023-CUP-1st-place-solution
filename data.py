@@ -156,19 +156,19 @@ class KG(object):
 			count_h[r].add(h)
 			count_t[r].add(t)
 		r_tp = {}
-		for r in range(len(count_r)):
-			tph = count_r[r] / len(count_h[r])
-			hpt = count_r[r] / len(count_t[r])
-			if hpt < 1.5:
-				if tph < 1.5:
-					r_tp[r] = 1  # 1-1
-				else:
-					r_tp[r] = 2  # 1-M
-			else:
-				if tph < 1.5:
-					r_tp[r] = 3  # M-1
-				else:
-					r_tp[r] = 4  # M-M
+		# for r in range(len(count_r)):
+		# 	tph = count_r[r] / len(count_h[r])
+		# 	hpt = count_r[r] / len(count_t[r])
+		# 	if hpt < 1.5:
+		# 		if tph < 1.5:
+		# 			r_tp[r] = 1  # 1-1
+		# 		else:
+		# 			r_tp[r] = 2  # 1-M
+		# 	else:
+		# 		if tph < 1.5:
+		# 			r_tp[r] = 3  # M-1
+		# 		else:
+		# 			r_tp[r] = 4  # M-M
 		return r_tp
 
 	def _logger(self):
@@ -286,7 +286,7 @@ class TestHead(TestDataset):
 		filter_bias = np.zeros(self._ent_num, dtype=np.float32)
 		filter_bias[self._true_ents[(r, t)]] = 10000.0
 		filter_bias[h] = 0.0
-		return sample, filter_bias, self._r_tp[r]
+		return sample, filter_bias, {}
 
 
 class TestTail(TestDataset):
@@ -299,7 +299,7 @@ class TestTail(TestDataset):
 		filter_bias = np.zeros(self._ent_num, dtype=np.float32)
 		filter_bias[self._true_ents[(h, r)]] = 10000.0
 		filter_bias[t] = 0.0
-		return sample, filter_bias, self._r_tp[r]
+		return sample, filter_bias, {}
 
 
 class BiOneShotIterator:

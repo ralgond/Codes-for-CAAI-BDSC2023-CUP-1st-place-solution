@@ -1,5 +1,5 @@
 {
-  "dim": 400,
+  "dim": 300,
   "norm_p": 1,
   "alpha": 0.5,
   "beta": 1.0,
@@ -10,7 +10,7 @@
   "neg_size": 128,
   "regularization": 0.15,
   "drop_rate": 0.05,
-  "test_batch_size": 32,
+  "test_batch_size": 16,
   "data_path": "./data/ecom-social",
   "save_path": "./save/ecom-social",
   "max_step": 200000,

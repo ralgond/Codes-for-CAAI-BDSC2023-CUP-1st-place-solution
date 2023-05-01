@@ -7,7 +7,8 @@ if __name__ == '__main__':
 	
 	utils.set_seed(42)
 
-	config.setting('config/config_FB15k-237.json')
+	config.setting('config/config_ecom-social.json')
+	# config.setting('config/config_FB15k-237.json')
 	# config.setting('config/config_FB15k.json')
 	# config.set_log("./config/config_FB15k-237.json")
 	# config.set_log("config/config_WN18.json")
