@@ -118,8 +118,13 @@ class KG(object):
 			return []
 		with open(file_path, 'r') as f:
 			for line in f:
-				h, r, t = line.strip().split('\t')
-				triples.append((self.__ent2id[h], self.__rel2id[r], self.__ent2id[t]))
+				row = line.strip().split('\t')
+				if len(row) == 2:
+					h, r = row[0], row[1]
+					triples.append((self.__ent2id[h], self.__rel2id[r], -1))
+				else:
+					h, r, t = row[0], row[1], row[2]
+					triples.append((self.__ent2id[h], self.__rel2id[r], self.__ent2id[t]))
 		return triples
 
 	def _get_true_ents(self):
