@@ -13,7 +13,7 @@
   "test_batch_size": 16,
   "data_path": "./data/ecom-social",
   "save_path": "./save/ecom-social",
-  "max_step": 200,
+  "max_step": 500,
   "valid_step": 100,
   "log_step": 1000,
   "test_log_step": 10000000,
