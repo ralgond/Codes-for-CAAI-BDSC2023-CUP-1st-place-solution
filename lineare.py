@@ -57,10 +57,11 @@ class LineaRE(nn.Module):
 		return ent_reg, rel_reg, pos_loss, neg_loss
 
 	def _test(self, sample, filter_bias, ht):
-		h, r, t, wh, wt = self._get_pos_embd(sample)
 		if ht == 'head-batch':
+			h, r, t, wh, wt = self._get_pos_embd(sample)
 			score = wh * self.ent_embd.weight + (r - wt * t)
 		elif ht == 'tail-batch':
+			h, r, wh, wt = self._get_pos_embd2(sample)
 			score = (wh * h + r) - wt * self.ent_embd.weight
 		else:
 			raise ValueError(f'mode {ht} not supported')
@@ -79,6 +80,13 @@ class LineaRE(nn.Module):
 		wh = self.wrh(pos_sample[:, 1]).unsqueeze(dim=1)
 		wt = self.wrt(pos_sample[:, 1]).unsqueeze(dim=1)
 		return h, r, t, wh, wt
+	
+	def _get_pos_embd2(self, pos_sample):
+		h = self.ent_embd(pos_sample[:, 0]).unsqueeze(dim=1)
+		r = self.rel_embd(pos_sample[:, 1]).unsqueeze(dim=1)
+		wh = self.wrh(pos_sample[:, 1]).unsqueeze(dim=1)
+		wt = self.wrt(pos_sample[:, 1]).unsqueeze(dim=1)
+		return h, r, wh, wt
 
 	def _log_params(self):
 		logging.info('>>> Model Parameter Configuration:')
