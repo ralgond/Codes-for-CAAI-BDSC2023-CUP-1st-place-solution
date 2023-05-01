@@ -28,6 +28,7 @@ class TrainTest:
 		scheduler = ExponentialLR(optimizer=optimizer, gamma=config.decay_rate)
 
 		max_mrr = 0.0
+		max_mrr_patient = 0
 		training_logs = []
 		# Training Loop
 		for step in range(init_step, config.max_step + 1):
@@ -53,7 +54,12 @@ class TrainTest:
 						'current_lr': current_lr,
 					}
 					self._save_model(optimizer, save_variable_list)
+					max_mrr_patient = 0
 					logging.info(f'Find a better model, it has been saved in \'{config.save_path}\'!')
+				else:
+					max_mrr_patient += 1
+					if max_mrr_patient > 3:
+						logging.info("Early stop. step={}".format(step))
 				if step / config.max_step in [0.2, 0.5, 0.8]:
 					scheduler.step()
 					current_lr *= config.decay_rate
