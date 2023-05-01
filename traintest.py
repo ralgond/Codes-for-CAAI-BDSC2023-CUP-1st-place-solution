@@ -60,6 +60,7 @@ class TrainTest:
 					max_mrr_patient += 1
 					if max_mrr_patient > 3:
 						logging.info("Early stop. step={}".format(step))
+						break
 				if step / config.max_step in [0.2, 0.5, 0.8]:
 					scheduler.step()
 					current_lr *= config.decay_rate
