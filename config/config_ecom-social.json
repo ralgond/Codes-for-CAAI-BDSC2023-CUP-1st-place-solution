@@ -1,5 +1,6 @@
 {
-  "dim": 300,
+  "dim": 400,
+  "max_mrr_patient": 5,
   "norm_p": 1,
   "alpha": 0.5,
   "beta": 1.0,
