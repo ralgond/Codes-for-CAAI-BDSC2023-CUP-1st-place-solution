@@ -9,7 +9,7 @@ class Configure(object):
 		with open(config_path, 'r') as fjson:
 			json_config = json.load(fjson)
 		self.dim = json_config['dim']
-                self.max_mrr_patient = json_config['max_mrr_patient']
+		self.max_mrr_patient = json_config['max_mrr_patient']
 		self.norm_p = json_config['norm_p']
 		self.alpha = json_config['alpha']
 		self.beta = json_config['beta']
