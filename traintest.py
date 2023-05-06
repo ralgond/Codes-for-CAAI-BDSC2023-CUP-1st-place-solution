@@ -58,7 +58,7 @@ class TrainTest:
 					logging.info(f'Find a better model, it has been saved in \'{config.save_path}\'!')
 				else:
 					max_mrr_patient += 1
-                                        logging.info("max_mrr_patient:", max_mrr_patient)
+					logging.info("max_mrr_patient:{}".format(max_mrr_patient))
 					if max_mrr_patient > config.max_mrr_patient:
 						logging.info("Early stop. step={}".format(step))
 						break
