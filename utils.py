@@ -21,14 +21,14 @@ def set_seed(seed):
         torch.backends.cudnn.benchmark = False
         
 def set_logger():
-	logging.basicConfig(
-		format='%(asctime)s | %(levelname)s:  %(message)s',
-		level=logging.INFO,
-		datefmt='%Y-%m-%d %H:%M:%S',
-		filename=path.join(config.save_path, 'train.log'),
-		filemode='w'
-	)
-	console = logging.StreamHandler()
-	console.setLevel(logging.INFO)
-	console.setFormatter(logging.Formatter('%(asctime)s | %(levelname)s:  %(message)s'))
-	logging.getLogger().addHandler(console)
+    logging.basicConfig(
+        format='%(asctime)s | %(levelname)s:  %(message)s',
+        level=logging.INFO,
+        datefmt='%Y-%m-%d %H:%M:%S',
+        filename=path.join(config.save_path, 'train.log'),
+        filemode='w'
+    )
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    console.setFormatter(logging.Formatter('%(asctime)s | %(levelname)s:  %(message)s'))
+    logging.getLogger().addHandler(console)
