@@ -80,7 +80,8 @@ with open("./data/ecom-social/top5_voter_for_every_event.txt", "w+") as of:
         of.write('{}\t{}\n'.format(r, "\t".join(l2)))
         
 #======================将train0.txt切分成train.txt和valid.txt====================
-
+import os
+os.environ['PYTHONHASHSEED'] = str(42)
 random.seed(42)
 np.random.seed(42)
 
