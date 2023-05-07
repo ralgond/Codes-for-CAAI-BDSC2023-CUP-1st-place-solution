@@ -138,7 +138,7 @@ class KG(object):
                 else:
                     h, r, t = row[0], row[1], row[2]
                     triples.append((self.__ent2id[h], self.__rel2id[r], self.__ent2id[t]))
-                    if "participate" in r:
+                    if "participate" in r and self.__ent2id[t] >= 0:
                         reverse_r = r+"_reverse"
                         triples.append((self.__ent2id[t], self.__rel2id[reverse_r], self.__ent2id[h])) # 数据增广
         return triples
