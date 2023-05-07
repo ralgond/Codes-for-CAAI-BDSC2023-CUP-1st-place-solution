@@ -26,15 +26,16 @@ class KG(object):
         self.__rel2id = read_elements(data_path / 'relations.dict')
 
         # 数据增广
-        # last_rid = -1
-        # for rel, id in self.__rel2id.items():
-        # 	if id > last_rid:
-        # 		last_rid = id
-        # items_l = []
-        # for rel_str, rel_int in self.__rel2id.items():
-        # 	items_l.append((rel_str+"_reverse", rel_int+1+last_rid))
-        # for reverse_rel_str, reverse_rel_int in items_l:
-        # 	self.__rel2id[reverse_rel_str] = reverse_rel_int
+        last_rid = -1
+        for rel, id in self.__rel2id.items():
+            if id > last_rid:
+                last_rid = id
+        items_l = []
+        for rel_str, rel_int in self.__rel2id.items():
+            if rel_str.contains("participate"):
+                items_l.append((rel_str+"_reverse", rel_int+1+last_rid))
+        for reverse_rel_str, reverse_rel_int in items_l:
+            self.__rel2id[reverse_rel_str] = reverse_rel_int
 
         self.num_ents = len(self.__ent2id)
         self.num_rels = len(self.__rel2id)
@@ -137,8 +138,9 @@ class KG(object):
                 else:
                     h, r, t = row[0], row[1], row[2]
                     triples.append((self.__ent2id[h], self.__rel2id[r], self.__ent2id[t]))
-                    # reverse_r = r+"_reverse"
-                    # triples.append((self.__ent2id[t], self.__rel2id[reverse_r], self.__ent2id[h])) # data augumentation
+                    if r.contains("participate"):
+                        reverse_r = r+"_reverse"
+                        triples.append((self.__ent2id[t], self.__rel2id[reverse_r], self.__ent2id[h])) # 数据增广
         return triples
 
     def _get_true_ents(self):
