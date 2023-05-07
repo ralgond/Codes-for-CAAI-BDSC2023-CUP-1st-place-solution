@@ -32,7 +32,7 @@ class KG(object):
                 last_rid = id
         items_l = []
         for rel_str, rel_int in self.__rel2id.items():
-            if rel_str.contains("participate"):
+            if "participate" in rel_str:
                 items_l.append((rel_str+"_reverse", rel_int+1+last_rid))
         for reverse_rel_str, reverse_rel_int in items_l:
             self.__rel2id[reverse_rel_str] = reverse_rel_int
@@ -138,7 +138,7 @@ class KG(object):
                 else:
                     h, r, t = row[0], row[1], row[2]
                     triples.append((self.__ent2id[h], self.__rel2id[r], self.__ent2id[t]))
-                    if r.contains("participate"):
+                    if "participate" in r:
                         reverse_r = r+"_reverse"
                         triples.append((self.__ent2id[t], self.__rel2id[reverse_r], self.__ent2id[h])) # 数据增广
         return triples

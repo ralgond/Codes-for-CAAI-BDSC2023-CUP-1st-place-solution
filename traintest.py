@@ -107,6 +107,8 @@ class TrainTest:
             Optimizer = torch.optim.Adagrad
         elif config.optimizer == 'SGD':
             Optimizer = torch.optim.SGD
+        elif config.optimizer == 'RAdam':
+            Optimizer = torch.optim.RAdam
         else:
             raise ValueError(f'optimizer {config.optimizer} not supported')
         optimizer = Optimizer(
