@@ -33,9 +33,10 @@ class KG(object):
         items_l = []
         for rel_str, rel_int in self.__rel2id.items():
             if "participate" in rel_str:
-                items_l.append((rel_str+"_reverse", rel_int+1+last_rid))
+                items_l.append((rel_str+"_reverse", 1+last_rid))
         for reverse_rel_str, reverse_rel_int in items_l:
             self.__rel2id[reverse_rel_str] = reverse_rel_int
+            print (reverse_rel_int, ":", reverse_rel_str)
 
         self.num_ents = len(self.__ent2id)
         self.num_rels = len(self.__rel2id)
