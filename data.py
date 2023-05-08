@@ -31,9 +31,8 @@ class KG(object):
             if id > last_rid:
                 last_rid = id
         items_l = []
-        for rel_str, rel_int in self.__rel2id.items():
-            if "participate" in rel_str:
-                items_l.append((rel_str+"_reverse", 1+last_rid))
+        for offset, (rel_str, rel_int) in enumerate(self.__rel2id.items(), start=1):
+            items_l.append((rel_str+"_reverse", offset+last_rid))
         for reverse_rel_str, reverse_rel_int in items_l:
             self.__rel2id[reverse_rel_str] = reverse_rel_int
             print (reverse_rel_int, ":", reverse_rel_str)
@@ -139,7 +138,7 @@ class KG(object):
                 else:
                     h, r, t = row[0], row[1], row[2]
                     triples.append((self.__ent2id[h], self.__rel2id[r], self.__ent2id[t]))
-                    if "participate" in r and self.__ent2id[t] >= 0:
+                    if self.__ent2id[t] >= 0:
                         reverse_r = r+"_reverse"
                         triples.append((self.__ent2id[t], self.__rel2id[reverse_r], self.__ent2id[h])) # 数据增广
         return triples
