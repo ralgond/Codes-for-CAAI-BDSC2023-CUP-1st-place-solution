@@ -31,9 +31,11 @@ class KG(object):
             if id > last_rid:
                 last_rid = id
         items_l = []
-        for offset, (rel_str, rel_int) in enumerate(self.__rel2id.items(), start=1):
+        idx = 1
+        for rel_str, rel_int in self.__rel2id.items():
             if 'participate' in rel_str:
-                items_l.append((rel_str+"_reverse", offset+last_rid))
+                items_l.append((rel_str+"_reverse", idx+last_rid))
+                idx += 1
         for reverse_rel_str, reverse_rel_int in items_l:
             self.__rel2id[reverse_rel_str] = reverse_rel_int
             print (reverse_rel_int, ":", reverse_rel_str)
