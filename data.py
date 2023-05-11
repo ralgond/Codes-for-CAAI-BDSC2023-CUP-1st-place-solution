@@ -2,6 +2,7 @@ import logging
 from pathlib import Path
 
 import numpy as np
+import random
 import torch
 from torch.utils.data import Dataset, DataLoader
 
@@ -17,6 +18,12 @@ def read_elements(file_path):
             elements2id[e_str] = int(e_id)
     return elements2id
 
+def seed_worker(worker_id):
+    worker_seed = torch.initial_seed() % 2**32
+    np.random.seed(worker_seed)
+    random.seed(worker_seed)
+g = torch.Generator()
+g.manual_seed(0)
 
 class KG(object):
     def __init__(self):
@@ -70,6 +77,8 @@ class KG(object):
                     batch_size=config.batch_size,
                     shuffle=True,
                     num_workers=4,
+                    worker_init_fn = seed_worker,
+                    generator=g,
                     collate_fn=TrainDataset.collate_fn,
                     persistent_workers=True
                 ),
@@ -78,6 +87,8 @@ class KG(object):
                     batch_size=config.batch_size,
                     shuffle=True,
                     num_workers=4,
+                    worker_init_fn = seed_worker,
+                    generator=g,
                     collate_fn=TrainDataset.collate_fn,
                     persistent_workers=True
                 )
@@ -93,6 +104,8 @@ class KG(object):
                         dataset(triples, self.num_ents, true_ents, self.__r_tp),
                         batch_size=config.test_batch_size,
                         num_workers=4,
+                        worker_init_fn = seed_worker,
+                        generator=g,
                         collate_fn=TestDataset.collate_fn
                     ),
                     ht
@@ -115,6 +128,8 @@ class KG(object):
                         dataset(triples, self.num_ents, true_ents, self.__r_tp),
                         batch_size=config.test_batch_size,
                         num_workers=4,
+                        worker_init_fn = seed_worker,
+                        generator=g,
                         collate_fn=TestDataset.collate_fn
                     ),
                     ht
