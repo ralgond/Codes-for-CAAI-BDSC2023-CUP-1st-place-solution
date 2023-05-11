@@ -1,0 +1,5 @@
+# install torch==1.11.0+cu113
+
+pandas==2.0.0
+ordered-set== 4.1.0
+scikit-learn==1.1.3
