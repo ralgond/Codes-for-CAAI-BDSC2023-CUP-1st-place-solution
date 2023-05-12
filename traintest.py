@@ -48,24 +48,24 @@ class TrainTest:
                 self._log_metrics('Valid', step, metrics[0])
                 logging.info('-----------------------------------------------')
 
-                # if metrics[0]['MRR'] >= max_mrr:
-                #     max_mrr = metrics[0]['MRR']
-                #     save_variable_list = {
-                #         'step': step,
-                #         'current_lr': current_lr,
-                #     }
-                #     self._save_model(optimizer, save_variable_list)
-                #     max_mrr_patient = 0
-                #     logging.info(f'Find a better model, it has been saved in \'{config.save_path}\'!')
-                # else:
-                #     max_mrr_patient += 1
-                #     logging.info("max_mrr_patient:{}".format(max_mrr_patient))
-                #     if step / config.max_step > 0.5:
-                #         if max_mrr_patient > config.max_mrr_patient:
-                #             logging.info("Early stop. step={}".format(step))
-                #             break
-                #     else:
-                #         max_mrr_patient = 0
+                if metrics[0]['MRR'] >= max_mrr:
+                    max_mrr = metrics[0]['MRR']
+                    save_variable_list = {
+                        'step': step,
+                        'current_lr': current_lr,
+                    }
+                    self._save_model(optimizer, save_variable_list)
+                    max_mrr_patient = 0
+                    logging.info(f'Find a better model, it has been saved in \'{config.save_path}\'!')
+                else:
+                    max_mrr_patient += 1
+                    logging.info("max_mrr_patient:{}".format(max_mrr_patient))
+                    if step / config.max_step > 0.5:
+                        if max_mrr_patient > config.max_mrr_patient:
+                            logging.info("Early stop. step={}".format(step))
+                            break
+                    else:
+                        max_mrr_patient = 0
 
                 if step / config.max_step in [0.2, 0.5, 0.8]:
                     scheduler.step()

@@ -76,7 +76,7 @@ class KG(object):
                     dataset=HeadDataset(self.__train_triples, self.num_ents),
                     batch_size=config.batch_size,
                     shuffle=True,
-                    num_workers=4,
+                    num_workers=1,
                     worker_init_fn = seed_worker,
                     generator=g,
                     collate_fn=TrainDataset.collate_fn,
@@ -86,7 +86,7 @@ class KG(object):
                     dataset=TailDataset(self.__train_triples, self.num_ents),
                     batch_size=config.batch_size,
                     shuffle=True,
-                    num_workers=4,
+                    num_workers=1,
                     worker_init_fn = seed_worker,
                     generator=g,
                     collate_fn=TrainDataset.collate_fn,
@@ -103,7 +103,7 @@ class KG(object):
                     DataLoader(
                         dataset(triples, self.num_ents, true_ents, self.__r_tp),
                         batch_size=config.test_batch_size,
-                        num_workers=4,
+                        num_workers=1,
                         worker_init_fn = seed_worker,
                         generator=g,
                         collate_fn=TestDataset.collate_fn
@@ -127,7 +127,7 @@ class KG(object):
                     DataLoader(
                         dataset(triples, self.num_ents, true_ents, self.__r_tp),
                         batch_size=config.test_batch_size,
-                        num_workers=4,
+                        num_workers=1,
                         worker_init_fn = seed_worker,
                         generator=g,
                         collate_fn=TestDataset.collate_fn
