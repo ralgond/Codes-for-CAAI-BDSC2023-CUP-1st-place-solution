@@ -65,9 +65,10 @@ class TrainTest:
                             logging.info("Early stop. step={}".format(step))
                             break
                     else:
+                        max_mrr_patient = 0
                         if max_mrr_patient > config.max_mrr_patient:
                             logging.info("Do not do early stop because (step / config.max_step) <= 0.5. step={}".format(step))
-                            
+
                 if step / config.max_step in [0.2, 0.5, 0.8]:
                     scheduler.step()
                     current_lr *= config.decay_rate
