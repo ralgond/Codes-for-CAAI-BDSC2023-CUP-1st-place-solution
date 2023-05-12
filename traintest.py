@@ -47,6 +47,7 @@ class TrainTest:
                 metrics = LineaRE.test_step(self.__cal_model, self.__kg.test_data_iterator(test='valid'), True)
                 self._log_metrics('Valid', step, metrics[0])
                 logging.info('-----------------------------------------------')
+
                 if metrics[0]['MRR'] >= max_mrr:
                     max_mrr = metrics[0]['MRR']
                     save_variable_list = {
@@ -59,9 +60,14 @@ class TrainTest:
                 else:
                     max_mrr_patient += 1
                     logging.info("max_mrr_patient:{}".format(max_mrr_patient))
-                    if max_mrr_patient > config.max_mrr_patient:
-                        logging.info("Early stop. step={}".format(step))
-                        break
+                    if step / config.max_step > 0.5:
+                        if max_mrr_patient > config.max_mrr_patient:
+                            logging.info("Early stop. step={}".format(step))
+                            break
+                    else:
+                        if max_mrr_patient > config.max_mrr_patient:
+                            logging.info("Do not do early stop because (step / config.max_step) <= 0.5. step={}".format(step))
+                            
                 if step / config.max_step in [0.2, 0.5, 0.8]:
                     scheduler.step()
                     current_lr *= config.decay_rate
