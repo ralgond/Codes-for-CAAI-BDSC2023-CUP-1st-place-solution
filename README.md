@@ -17,6 +17,8 @@ pip install -r requirements.txt
 mkdir -p ./raw_data/ecom-social/
 
 mkdir -p ./data/ecom-social/
+
+mkdir -p ./save/ecom-social/
 ```
 
 put raw data into ./raw_data/ecom-social/
