@@ -162,3 +162,4 @@ cython_debug/
 data/
 raw_data/
 save/
+save_20*/

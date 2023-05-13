@@ -67,10 +67,10 @@ class TrainTest:
                     else:
                         max_mrr_patient = 0
 
-                if step / config.max_step in [0.2, 0.5, 0.8]:
-                    scheduler.step()
-                    current_lr *= config.decay_rate
-                    logging.info(f'Change learning_rate to {current_lr} at step {step}')
+            if step / config.max_step in [0.2, 0.5, 0.8]:
+                scheduler.step()
+                current_lr *= config.decay_rate
+                logging.info(f'Change learning_rate to {current_lr} at step {step}')
         logging.info('Training Finished!')
 
     def test(self):
