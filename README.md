@@ -24,7 +24,7 @@ put raw data into ./raw_data/ecom-social/
 ```
 python process_data2.py
 
-python main.py
+bash run.sh
 
 python merge_all.py
 ```
