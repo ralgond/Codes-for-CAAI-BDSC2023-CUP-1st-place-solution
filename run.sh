@@ -23,3 +23,5 @@ cp save/ecom-social/predict.txt $the_dir/predict3.txt
 python merge_all_predict_files.py $the_dir
 
 cp $the_dir/predict.txt save/ecom-social/
+
+python merge_all.py
