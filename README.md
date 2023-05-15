@@ -21,7 +21,7 @@ mkdir -p ./data/ecom-social/
 mkdir -p ./save/ecom-social/
 ```
 
-put raw data into ./raw_data/ecom-social/
+Put raw data into ./raw_data/ecom-social/
 
 ```
 python process_data2.py
@@ -31,4 +31,4 @@ bash run.sh
 # wait about 7 hours...
 ```
 
-the result file is local at ./save/ecom-social/, it's name is submit.json
+The result file is located in ./save/ecom-social/, it's name is submit.json
