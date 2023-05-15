@@ -29,8 +29,6 @@ python process_data2.py
 bash run.sh
 
 # wait about 7 hours...
-
-python merge_all.py
 ```
 
 the result file is local at ./save/ecom-social/, it's name is submit.json
