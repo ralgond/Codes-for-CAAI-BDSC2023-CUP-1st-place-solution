@@ -32,3 +32,6 @@ bash run.sh
 ```
 
 The result file is located in ./save/ecom-social/, it's name is submit.json
+
+## 关于结果的随机性
+我已经尝试了各种方法，但没有找到让结果固定不变的手段，结果会在一定范围里波动，所以请多试几次（多执行几次run.sh，每次大概花费7小时），然后取最大的那个结果即可。
