@@ -2,11 +2,11 @@
 
 ## 软硬件环境
 
-PyTorch  1.11.0
+PyTorch  2.0.0
 
 Python  3.8(ubuntu20.04)
 
-Cuda  11.3
+Cuda  11.8
 
 RTX A5000(24GB) * 1
 
