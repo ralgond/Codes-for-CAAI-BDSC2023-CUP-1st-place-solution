@@ -1,4 +1,4 @@
-# install torch==1.11.0+cu113
+# install torch==2.0.0+cu118
 
 pandas==2.0.0
 ordered-set== 4.1.0
