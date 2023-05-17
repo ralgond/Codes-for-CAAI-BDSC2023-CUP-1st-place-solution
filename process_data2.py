@@ -5,6 +5,10 @@ from sklearn.utils import shuffle
 import numpy as np
 import random
 
+SOURCE_TRAIN_INFO_JSON = "./raw_data/ecom-social/source_event_preliminary_train_info.json"
+TARGET_TRAIN_INFO_JSON = "./raw_data/ecom-social/target_event_preliminary_train_info.json"
+TARGET_TEST_INFO_JSON = "./raw_data/ecom-social/target_event_preliminary_test_info.json"
+
 #===================生成entities.dict和relations.dict===================
 
 event_df = pd.read_json("./raw_data/ecom-social/event_info.json")
@@ -20,14 +24,14 @@ with open("./data/ecom-social/relations.dict", "w+") as of:
     rel_d['participate'] = len(rel_d)
     of.write(f"{rel_d['participate']}\tparticipate")
 
-source_train_df = pd.read_json("./raw_data/ecom-social/source_event_preliminary_train_info.json")
+source_train_df = pd.read_json(SOURCE_TRAIN_INFO_JSON)
 l = source_train_df['inviter_id'].tolist() + source_train_df['voter_id'].tolist()
 
-target_train_df = pd.read_json("./raw_data/ecom-social/target_event_preliminary_train_info.json")
+target_train_df = pd.read_json(TARGET_TRAIN_INFO_JSON)
 l += target_train_df['inviter_id'].tolist()
 l += target_train_df['voter_id'].tolist()
 
-target_test_df = pd.read_json("./raw_data/ecom-social/target_event_preliminary_test_info.json")
+target_test_df = pd.read_json(TARGET_TEST_INFO_JSON)
 l += target_test_df['inviter_id'].tolist()
 
 ent_set = OrderedSet(l)
