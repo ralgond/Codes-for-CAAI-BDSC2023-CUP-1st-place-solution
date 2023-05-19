@@ -57,9 +57,21 @@ for _, row in train_df.iterrows():
     if if_voter_participate:
         l.append([inviter_id, 'participate', voter_id])
 participant_train_df = pd.DataFrame(l, columns=['inviter_id', 'event_id', 'voter_id'])
-print ("=======================>", len(participant_train_df))
-
+print ("len(participant_train_df)=======================>", len(participant_train_df))
 train0 = pd.concat([participant_train_df, train_df[['inviter_id', 'event_id', 'voter_id']]])
+
+l2 = []
+iv_size_df = train_df.groupby(['inviter_id', 'voter_id']).size().to_frame("iv_size").reset_index()
+count = 0
+for index, row in iv_size_df.iterrows():
+    if row['iv_size'] >= 2:
+        count += 1
+        inviter_id, voter_id = row["inviter_id"], row["voter_id"]
+        l2.append([inviter_id, "ia_ge2", voter_id])
+iage2_train_df = pd.DataFrame(l2, columns=['inviter_id', 'event_id', 'voter_id'])
+print ("len(iagt2_train_df)=======================>", len(iage2_train_df))
+train0 = pd.concat([iage2_train_df, train0[['inviter_id', 'event_id', 'voter_id']]])
+
 
 train0.to_csv("./data/ecom-social/train0.txt", index=False, sep='\t', header=False)
 
