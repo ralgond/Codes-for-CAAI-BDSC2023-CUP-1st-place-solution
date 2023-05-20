@@ -22,7 +22,9 @@ with open("./data/ecom-social/relations.dict", "w+") as of:
         of.write(f"{idx}\t{rel}\n")
         rel_d[rel] = idx
     rel_d['participate'] = len(rel_d)
-    of.write(f"{rel_d['participate']}\tparticipate")
+    of.write(f"{rel_d['participate']}\tparticipate\n")
+    #rel_d['ia_ge2'] = len(rel_d)
+    #of.write(f"{rel_d['ia_ge2']}\tia_ge2")
 
 source_train_df = pd.read_json(SOURCE_TRAIN_INFO_JSON)
 l = source_train_df['inviter_id'].tolist() + source_train_df['voter_id'].tolist()
@@ -60,17 +62,17 @@ participant_train_df = pd.DataFrame(l, columns=['inviter_id', 'event_id', 'voter
 print ("len(participant_train_df)=======================>", len(participant_train_df))
 train0 = pd.concat([participant_train_df, train_df[['inviter_id', 'event_id', 'voter_id']]])
 
-l2 = []
-iv_size_df = train_df.groupby(['inviter_id', 'voter_id']).size().to_frame("iv_size").reset_index()
-count = 0
-for index, row in iv_size_df.iterrows():
-    if row['iv_size'] >= 2:
-        count += 1
-        inviter_id, voter_id = row["inviter_id"], row["voter_id"]
-        l2.append([inviter_id, "ia_ge2", voter_id])
-iage2_train_df = pd.DataFrame(l2, columns=['inviter_id', 'event_id', 'voter_id'])
-print ("len(iagt2_train_df)=======================>", len(iage2_train_df))
-train0 = pd.concat([iage2_train_df, train0[['inviter_id', 'event_id', 'voter_id']]])
+#l2 = []
+#iv_size_df = train_df.groupby(['inviter_id', 'voter_id']).size().to_frame("iv_size").reset_index()
+#count = 0
+#for index, row in iv_size_df.iterrows():
+#    if row['iv_size'] >= 2:
+#        count += 1
+#        inviter_id, voter_id = row["inviter_id"], row["voter_id"]
+#        l2.append([inviter_id, "ia_ge2", voter_id])
+#iage2_train_df = pd.DataFrame(l2, columns=['inviter_id', 'event_id', 'voter_id'])
+#print ("len(iagt2_train_df)=======================>", len(iage2_train_df))
+#train0 = pd.concat([iage2_train_df, train0[['inviter_id', 'event_id', 'voter_id']]])
 
 
 train0.to_csv("./data/ecom-social/train0.txt", index=False, sep='\t', header=False)

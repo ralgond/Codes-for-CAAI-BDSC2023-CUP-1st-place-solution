@@ -10,7 +10,7 @@
   "batch_size": 2048,
   "neg_size": 128,
   "regularization": 0.15,
-  "drop_rate": 0.05,
+  "drop_rate": 0.1,
   "test_batch_size": 16,
   "data_path": "./data/ecom-social",
   "save_path": "./save/ecom-social",
