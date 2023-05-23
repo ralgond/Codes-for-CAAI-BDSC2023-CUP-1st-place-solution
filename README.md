@@ -28,7 +28,7 @@ python process_data2.py
 
 bash run.sh
 
-# wait about 6 hours...
+# wait about 7.5 hours...
 ```
 
 The result file is located in ./save/ecom-social/, it's name is submit.json
