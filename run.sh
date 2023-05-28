@@ -1,24 +1,32 @@
 #!/bin/bash
 
-the_date=`date +%Y%m%d-%H%M%S`
+if [ ! -n "$1" ] ; then
+	the_date=`date +%Y%m%d-%H%M%S`
+	
+	the_dir="save_"${the_date}
+else
+	the_dir="$1"
+fi
 
-the_dir="save_"${the_date}
 
 echo $the_dir
 
 mkdir -p $the_dir
 
-python main.py
+if [ ! -f "$the_dir/predict1.txt" ]; then
+	python main.py
+	cp save/ecom-social/predict.txt $the_dir/predict1.txt
+fi
 
-cp save/ecom-social/predict.txt $the_dir/predict1.txt
+if [ ! -f "$the_dir/predict2.txt" ]; then
+	python main.py
+	cp save/ecom-social/predict.txt $the_dir/predict2.txt
+fi
 
-python main.py
-
-cp save/ecom-social/predict.txt $the_dir/predict2.txt
-
-python main.py
-
-cp save/ecom-social/predict.txt $the_dir/predict3.txt
+if [ ! -f "$the_dir/predict3.txt" ]; then
+	python main.py
+	cp save/ecom-social/predict.txt $the_dir/predict3.txt
+fi
 
 python merge_all_predict_files.py $the_dir
 
