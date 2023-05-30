@@ -71,6 +71,7 @@ class TrainTest:
                 scheduler.step()
                 current_lr *= config.decay_rate
                 logging.info(f'Change learning_rate to {current_lr} at step {step}')
+                max_mrr_patient = 0
         logging.info('Training Finished!')
 
     def test(self):
