@@ -61,9 +61,10 @@ class TrainTest:
                     max_mrr_patient += 1
                     logging.info("max_mrr_patient:{}".format(max_mrr_patient))
                     if step / config.max_step > 0.5:
-                        if max_mrr_patient > config.max_mrr_patient:
-                            logging.info("Early stop. step={}".format(step))
-                            break
+                        pass
+                        # if max_mrr_patient > config.max_mrr_patient:
+                        #     logging.info("Early stop. step={}".format(step))
+                        #     break
                     else:
                         max_mrr_patient = 0
 
