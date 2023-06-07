@@ -49,12 +49,15 @@ class TrainTest:
                 logging.info('-----------------------------------------------')
 
                 if metrics[0]['MRR'] >= max_mrr:
+                    mr = metrics[0]['MR']
                     max_mrr = metrics[0]['MRR']
                     save_variable_list = {
                         'step': step,
                         'current_lr': current_lr,
+                        'mr': mr,
+                        'max_mrr': max_mrr
                     }
-                    self._save_model(optimizer, save_variable_list, max_mrr)
+                    self._save_model(optimizer, save_variable_list)
                     max_mrr_patient = 0
                     logging.info(f'Find a better model, it has been saved in \'{config.save_path}\'!')
                 else:
@@ -100,10 +103,12 @@ class TrainTest:
         checkpoint = torch.load(path.join(config.save_path, 'checkpoint'))
         self.__model.load_state_dict(checkpoint['model_state_dict'])
         step = checkpoint['step']
+        mr = checkpoint['mr']
+        max_mrr = checkpoint['max_mrr']
 
         test_data_list = self.__kg.predict_data_iterator(test='test')
         logging.info('----------Predicting on Test Dataset----------')
-        LineaRE.predict_step(self.__model, test_data_list)
+        LineaRE.predict_step(self.__model, test_data_list, mr, max_mrr)
 
 
     def _get_optimizer(self):  # add Optimizer you wanted here
@@ -135,7 +140,7 @@ class TrainTest:
             init_step = 1
         return optimizer, init_step, current_lr
 
-    def _save_model(self, optimizer, save_vars, max_mrr):
+    def _save_model(self, optimizer, save_vars):
         # 保存 config
         save_path = pathlib.Path(config.save_path)
         config_dict = vars(copy.deepcopy(config))
@@ -162,8 +167,6 @@ class TrainTest:
             param = param.weight.detach().cpu().numpy()
             np.save(str(save_path / name), param)
 
-        with open(save_path / f'max_mrr_{max_mrr}', 'w+') as of:
-            pass
 
     @staticmethod
     def _log_metrics(dataset_str, step, metrics):
