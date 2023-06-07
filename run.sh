@@ -23,12 +23,12 @@ if [ ! -f "$the_dir/predict2.txt" ]; then
 	cp save/ecom-social/predict.txt $the_dir/predict2.txt
 fi
 
-if [ ! -f "$the_dir/predict3.txt" ]; then
-	python main.py
-	cp save/ecom-social/predict.txt $the_dir/predict3.txt
-fi
+# if [ ! -f "$the_dir/predict3.txt" ]; then
+# 	python main.py
+# 	cp save/ecom-social/predict.txt $the_dir/predict3.txt
+# fi
 
-python merge_all_predict_files.py $the_dir
+python merge_all_predict_files2.py $the_dir
 
 cp $the_dir/predict.txt save/ecom-social/
 

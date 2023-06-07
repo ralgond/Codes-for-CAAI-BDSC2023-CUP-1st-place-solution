@@ -54,7 +54,7 @@ class TrainTest:
                         'step': step,
                         'current_lr': current_lr,
                     }
-                    self._save_model(optimizer, save_variable_list)
+                    self._save_model(optimizer, save_variable_list, max_mrr)
                     max_mrr_patient = 0
                     logging.info(f'Find a better model, it has been saved in \'{config.save_path}\'!')
                 else:
@@ -135,7 +135,7 @@ class TrainTest:
             init_step = 1
         return optimizer, init_step, current_lr
 
-    def _save_model(self, optimizer, save_vars):
+    def _save_model(self, optimizer, save_vars, max_mrr):
         # 保存 config
         save_path = pathlib.Path(config.save_path)
         config_dict = vars(copy.deepcopy(config))
@@ -161,6 +161,9 @@ class TrainTest:
         for name, param in param_dict.items():
             param = param.weight.detach().cpu().numpy()
             np.save(str(save_path / name), param)
+
+        with open(save_path / f'max_mrr_{max_mrr}', 'w+') as of:
+            pass
 
     @staticmethod
     def _log_metrics(dataset_str, step, metrics):
