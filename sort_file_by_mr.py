@@ -15,4 +15,4 @@ for fn in fn_list:
 
 l2 = sorted(l, key=lambda x: x[1])
 
-print (l2)
+print (' '.join([term[0] for term in l2[:3]]))

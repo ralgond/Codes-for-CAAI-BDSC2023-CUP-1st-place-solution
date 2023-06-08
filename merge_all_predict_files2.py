@@ -5,6 +5,8 @@ fn1 = sys.argv[2]
 fn2 = sys.argv[3]
 fn3 = sys.argv[4]
 
+print (path, fn1, fn2, fn3)
+
 with open(f"{path}/{fn1}") as inf1, open(f"{path}/{fn2}") as inf2, \
      open(f"{path}/{fn3}") as inf3, open(f"{path}/predict.txt", "w+") as of:
     lines1 = inf1.readlines()
