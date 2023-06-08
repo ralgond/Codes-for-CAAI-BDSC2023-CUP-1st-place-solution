@@ -173,7 +173,7 @@ class LineaRE(nn.Module):
     def predict_step(model, test_dataset_list, mr, max_mrr):
         model.eval()
 
-        with torch.no_grad(), open(config.save_path+"/predict_{:.5f}_{:.5f}.txt".format(mr, max_mrr), "w+") as of:
+        with torch.no_grad(), open(config.save_path+"/predict.txt", "w+") as of:
             for test_dataset, mode in test_dataset_list:
                 rtps = []
                 for pos_sample, filter_bias, rel_tp in test_dataset:

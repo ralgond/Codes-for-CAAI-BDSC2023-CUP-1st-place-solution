@@ -1,23 +1,19 @@
 import sys
 
-path = sys.argv[1]
-fn1 = sys.argv[2]
-fn2 = sys.argv[3]
-fn3 = sys.argv[4]
 
-print (path, fn1, fn2, fn3)
-
-with open(f"{path}/{fn1}") as inf1, open(f"{path}/{fn2}") as inf2, \
-     open(f"{path}/{fn3}") as inf3, open(f"{path}/predict.txt", "w+") as of:
+with open(f"{path}/predict1.txt") as inf1, open(f"{path}/predict2.txt") as inf2, \
+     open(f"{path}/predict3.txt") as inf3, open(f"{path}/predict4.txt") as inf4, open(f"{path}/predict.txt", "w+") as of:
     lines1 = inf1.readlines()
     lines2 = inf2.readlines()
     lines3 = inf3.readlines()
+    lines4 = inf4.readlines()
     
-    for line1, line2, line3 in zip(lines1, lines2, lines3):
+    for line1, line2, line3, line4 in zip(lines1, lines2, lines3, lines4):
         d = {}
         terms = line1.strip().split('\t')
         terms.extend(line2.strip().split('\t'))
         terms.extend(line3.strip().split('\t'))
+        terms.extend(line4.strip().split('\t'))
         for term in terms:
             k,v = term.split(': ')
             v = float(v)
