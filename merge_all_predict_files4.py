@@ -1,5 +1,6 @@
 import sys
 
+path = sys.argv[1]
 
 with open(f"{path}/predict1.txt") as inf1, open(f"{path}/predict2.txt") as inf2, \
      open(f"{path}/predict3.txt") as inf3, open(f"{path}/predict4.txt") as inf4, open(f"{path}/predict.txt", "w+") as of:
