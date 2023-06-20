@@ -8,7 +8,7 @@ import random
 SOURCE_TRAIN_INFO_JSON = "./raw_data/ecom-social/source_event_preliminary_train_info.json"
 TARGET_TRAIN_INFO_JSON_PRE = "./raw_data/ecom-social/target_event_preliminary_train_info.json"
 TARGET_TRAIN_INFO_JSON_FIN = "./raw_data/ecom-social/target_event_final_train_info.json"
-TARGET_TEST_INFO_JSON = "./raw_data/ecom-social/target_event_preliminary_test_info.json"
+TARGET_TEST_INFO_JSON = "./raw_data/ecom-social/target_event_final_test_info.json"
 
 #===================生成entities.dict和relations.dict===================
 
