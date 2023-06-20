@@ -6,7 +6,8 @@ import numpy as np
 import random
 
 SOURCE_TRAIN_INFO_JSON = "./raw_data/ecom-social/source_event_preliminary_train_info.json"
-TARGET_TRAIN_INFO_JSON = "./raw_data/ecom-social/target_event_preliminary_train_info.json"
+TARGET_TRAIN_INFO_JSON_PRE = "./raw_data/ecom-social/target_event_preliminary_train_info.json"
+TARGET_TRAIN_INFO_JSON_FIN = "./raw_data/ecom-social/target_event_final_train_info.json"
 TARGET_TEST_INFO_JSON = "./raw_data/ecom-social/target_event_preliminary_test_info.json"
 
 #===================生成entities.dict和relations.dict===================
@@ -29,9 +30,13 @@ with open("./data/ecom-social/relations.dict", "w+") as of:
 source_train_df = pd.read_json(SOURCE_TRAIN_INFO_JSON)
 l = source_train_df['inviter_id'].tolist() + source_train_df['voter_id'].tolist()
 
-target_train_df = pd.read_json(TARGET_TRAIN_INFO_JSON)
-l += target_train_df['inviter_id'].tolist()
-l += target_train_df['voter_id'].tolist()
+target_train_df_pre = pd.read_json(TARGET_TRAIN_INFO_JSON_PRE)
+l += target_train_df_pre['inviter_id'].tolist()
+l += target_train_df_pre['voter_id'].tolist()
+
+target_train_df_fin = pd.read_json(TARGET_TRAIN_INFO_JSON_FIN)
+l += target_train_df_fin['inviter_id'].tolist()
+l += target_train_df_fin['voter_id'].tolist()
 
 target_test_df = pd.read_json(TARGET_TEST_INFO_JSON)
 l += target_test_df['inviter_id'].tolist()
@@ -46,7 +51,7 @@ with open("./data/ecom-social/entities.dict", "w+") as of:
         
 #=========================生成train0.txt和test0.txt=============================
 
-train_df = pd.concat([source_train_df, target_train_df])
+train_df = pd.concat([source_train_df, target_train_df_pre, target_train_df_fin])
 l = []
 # 添加三元组(inviter_id, 'participate', voter_id)
 inviter_id_idx = train_df.columns.get_loc("inviter_id")
