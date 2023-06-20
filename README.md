@@ -28,10 +28,10 @@ python process_data2.py
 
 bash run.sh
 
-# wait about 7.5 hours...
+# wait about 10 hours...
 ```
 
 The result file is located in ./save/ecom-social/, it's name is submit.json
 
 ## 关于结果的随机性
-结果会在一定范围里波动，所以请多试几次（多执行几次run.sh，每次大概花费6小时），然后取最大的那个结果即可。
+结果会在一定范围里波动，所以请多试几次（多执行几次run.sh，每次大概花费10小时），然后取最大的那个结果即可。
