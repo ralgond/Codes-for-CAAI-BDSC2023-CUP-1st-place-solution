@@ -23,15 +23,26 @@ mkdir -p ./save/ecom-social/
 
 Put raw data into ./raw_data/ecom-social/
 
+raw data:
+```
+event_info.json
+source_event_preliminary_train_info.json
+target_event_final_test_info.json
+target_event_final_train_info.json
+target_event_preliminary_test_info.json
+target_event_preliminary_train_info.json
+user_info.json
+```
+
 ```
 python process_data2.py
 
 bash run.sh
 
-# wait about 10 hours...
+# wait about 5 hours...
 ```
 
 The result file is located in ./save/ecom-social/, it's name is submit.json
 
 ## 关于结果的随机性
-结果会在一定范围里波动，所以请多试几次（多执行几次run.sh，每次大概花费10小时），然后取最大的那个结果即可。
+结果会在一定范围里波动，所以请多试几次（多执行几次run.sh，每次大概花费5小时），然后取最大的那个结果即可。
