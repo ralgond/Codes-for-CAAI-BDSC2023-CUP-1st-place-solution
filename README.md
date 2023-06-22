@@ -12,6 +12,10 @@ RTX 3090(24GB) * 1
 
 ## 安装与运行
 ```bash
+unzip LineaRE-final.zip
+
+cd LineaRE-final
+
 pip install -r requirements.txt
 
 mkdir -p ./raw_data/ecom-social/
@@ -37,12 +41,12 @@ user_info.json
 ```
 python process_data2.py
 
-bash run.sh
+run.sh
 
-# wait about 5 hours...
+# wait about 2.5 hours...
 ```
 
 The result file is located in ./save/ecom-social/, it's name is submit.json
 
 ## 关于结果的随机性
-结果会在一定范围里波动，所以请多试几次（多执行几次run.sh，每次大概花费5小时），然后取最大的那个结果即可。
+结果会在一定范围里波动，请一直执行run.sh，直到复现最优成绩即可。
