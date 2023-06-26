@@ -44,7 +44,7 @@ cd src
 
 python process_data2.py
 
-run.sh
+bash run.sh
 # 程序大概会运行 2.5 个小时...
 
 cd ..
