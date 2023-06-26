@@ -1,5 +1,3 @@
-# LineaRE
-
 ## 软硬件环境
 
 PyTorch  1.11.0
@@ -42,15 +40,17 @@ user_info.json
 
 ### 运行代码：
 ```
+cd src
+
 python process_data2.py
 
 run.sh
-
 # 程序大概会运行 2.5 个小时...
+
+cd ..
 ```
 
 ### 程序运行结束
-
 结果文件会保存在 ./submit/, 文件名为submit.json
 
 ## 关于结果的随机性
