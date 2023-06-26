@@ -10,24 +10,26 @@ Cuda  11.3
 
 RTX 3090(24GB) * 1
 
-## 安装与运行
-```bash
-unzip LineaRE-final.zip
+## 部署与运行
 
-cd LineaRE-final
+### 部署
+```
+unzip AREA.zip
+
+cd AREA
 
 pip install -r requirements.txt
 
-mkdir -p ./raw_data/ecom-social/
+mkdir -p ./src/raw_data/ecom-social/
 
-mkdir -p ./data/ecom-social/
+mkdir -p ./src/data/ecom-social/
 
-mkdir -p ./save/ecom-social/
+mkdir -p ./src/save/ecom-social/
 ```
 
-Put raw data into ./raw_data/ecom-social/
+将初赛和复赛的文件都放到 ./src/raw_data/ecom-social/
 
-raw data:
+这些文件如下：
 ```
 event_info.json
 source_event_preliminary_train_info.json
@@ -38,15 +40,18 @@ target_event_preliminary_train_info.json
 user_info.json
 ```
 
+### 运行代码：
 ```
 python process_data2.py
 
 run.sh
 
-# wait about 2.5 hours...
+# 程序大概会运行 2.5 个小时...
 ```
 
-The result file is located in ./save/ecom-social/, it's name is submit.json
+### 程序运行结束
+
+结果文件会保存在 ./submit/, 文件名为submit.json
 
 ## 关于结果的随机性
 结果会在一定范围里波动，请一直执行run.sh，直到复现最优成绩即可。
