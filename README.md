@@ -1,3 +1,6 @@
+## 项目介绍
+https://tianchi.aliyun.com/competition/entrance/532073
+
 ## 软硬件环境
 
 PyTorch  1.11.0
